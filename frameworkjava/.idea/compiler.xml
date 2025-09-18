@@ -6,6 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="xiaowu-msteplate-service" />
+        <module name="xiaowu-msteplate-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
@@ -13,6 +15,9 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="frameworkjava" options="" />
+      <module name="xiaowu-mstemplate" options="" />
+      <module name="xiaowu-msteplate-api" options="-parameters" />
+      <module name="xiaowu-msteplate-service" options="-parameters" />
     </option>
   </component>
 </project>

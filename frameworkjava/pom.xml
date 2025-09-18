@@ -11,6 +11,9 @@
     <groupId>com.xiaowu.frameworkjava</groupId>
     <artifactId>frameworkjava</artifactId>
     <packaging>pom</packaging>
+    <modules>
+        <module>xiaowu-mstemplate</module>
+    </modules>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
