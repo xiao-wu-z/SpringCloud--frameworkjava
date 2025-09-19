@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>xiaowu-mstemplate</module>
+        <module>xiaowu-gateway</module>
     </modules>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
