@@ -3,12 +3,15 @@ package com.xiaowu.frameworkjava.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
-
 import java.text.SimpleDateFormat;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class JsonUtil {
@@ -80,6 +83,67 @@ public class JsonUtil {
         }
         try {
             return clazz.equals(String.class) ? (T) str : OBJECT_MAPPER.readValue(str, clazz);
+        } catch (JsonProcessingException e) {
+            log.warn("Parse String to Object error : {}", e.getMessage());
+            return null;
+        }
+    }
+
+
+    /**
+     * 将Json字符串转换为list对象，支持list嵌套简单对象
+     * @param str Json字符串
+     * @param clazz 对象类型
+     * @return 对象列表
+     * @param <T> 对象类型
+     */
+    public static <T> List<T> string2List(String str, Class<T> clazz) {
+        if (str == null || str.length() <= 0 || clazz == null) {
+            return null;
+        }
+        JavaType javaType = OBJECT_MAPPER.getTypeFactory()
+                .constructParametricType(List.class, clazz);
+        try {
+            return OBJECT_MAPPER.readValue(str, javaType);
+        } catch (JsonProcessingException e) {
+            log.warn("Parse String to List error : {}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 将Json字符串转换为map对象，支持map嵌套简单对象
+     * @param str Json字符串
+     * @param valClass value类型
+     * @return map对象
+     * @param <T> value类型
+     */
+    public static <T> Map<String, T> string2Map(String str, Class<T> valClass) {
+        if (str == null || str.length() <= 0 || valClass == null) {
+            return null;
+        }
+        JavaType javaType = OBJECT_MAPPER.getTypeFactory()
+                .constructParametricType(LinkedHashMap.class, String.class, valClass);
+        try {
+            return OBJECT_MAPPER.readValue(str, javaType);
+        }  catch (JsonProcessingException e) {
+            log.warn("Parse String to Map error : {}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 将Json字符串转换为对象，支持复杂对象，包括list和map嵌套
+     * @param str Json字符串
+     * @param valueTypeRef 对象模板信息
+     * @return 对象
+     **/
+    public static <T> T string2Obj(String str, TypeReference<T> valueTypeRef) {
+        if (str == null || str.length() <= 0 || valueTypeRef == null) {
+            return null;
+        }
+        try {
+            return OBJECT_MAPPER.readValue(str, valueTypeRef);
         } catch (JsonProcessingException e) {
             log.warn("Parse String to Object error : {}", e.getMessage());
             return null;
