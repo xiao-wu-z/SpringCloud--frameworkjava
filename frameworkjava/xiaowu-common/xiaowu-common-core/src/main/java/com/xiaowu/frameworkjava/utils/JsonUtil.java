@@ -6,9 +6,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +34,11 @@ public class JsonUtil {
                         .configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false)
                         .configure(MapperFeature.USE_ANNOTATIONS, false)
                         .addModule(new JavaTimeModule())
+                        .addModule(new SimpleModule()
+                                .addSerializer(LocalDateTime.class,
+                                        new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                                .addDeserializer(LocalDateTime.class,
+                                        new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
                         .defaultDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
                         .serializationInclusion(JsonInclude.Include.NON_NULL)
                         .build();
