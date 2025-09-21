@@ -9,6 +9,7 @@
         <module name="xiaowu-common-core" />
         <module name="xiaowu-gateway" />
         <module name="xiaowu-common-domin" />
+        <module name="xiaowu-common-security" />
         <module name="xiaowu-msteplate-service" />
         <module name="xiaowu-msteplate-api" />
       </profile>
@@ -21,6 +22,7 @@
       <module name="xiaowu-common" options="" />
       <module name="xiaowu-common-core" options="-parameters" />
       <module name="xiaowu-common-domin" options="-parameters" />
+      <module name="xiaowu-common-security" options="-parameters" />
       <module name="xiaowu-gateway" options="-parameters" />
       <module name="xiaowu-mstemplate" options="" />
       <module name="xiaowu-msteplate-api" options="-parameters" />

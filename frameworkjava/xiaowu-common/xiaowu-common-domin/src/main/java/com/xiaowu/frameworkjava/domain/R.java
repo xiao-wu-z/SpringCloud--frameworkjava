@@ -1,4 +1,4 @@
-package com.xiaowu.frameworkjava;
+package com.xiaowu.frameworkjava.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

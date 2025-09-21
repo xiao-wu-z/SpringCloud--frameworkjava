@@ -1,8 +1,7 @@
-package com.xiaowu.frameworkjava;
+package com.xiaowu.frameworkjava.domain;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 @AllArgsConstructor
