@@ -2,8 +2,31 @@ package com.xiaowu.frameworkjava.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 public class StringUtil {
+
+
+    /**
+     * 判断指定字符串是否与指定匹配规则链表中的任意一个匹配规则匹配
+     *
+     * @param url 指定字符串
+     * @param patternList 匹配规则链表
+     * @return 是否匹配
+     */
+    public static boolean matches(String url, List<String> patternList) {
+        if (StringUtils.isEmpty(url) || CollectionUtils.isEmpty(patternList)) {
+            return false;
+        }
+        for (String pattern : patternList) {
+            if (isMatch(pattern, url)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     /**
