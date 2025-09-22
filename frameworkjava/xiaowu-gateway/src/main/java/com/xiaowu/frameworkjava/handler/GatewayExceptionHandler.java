@@ -2,6 +2,7 @@ package com.xiaowu.frameworkjava.handler;
 
 import com.xiaowu.frameworkjava.domain.R;
 import com.xiaowu.frameworkjava.domain.ResultCode;
+import com.xiaowu.frameworkjava.exception.ServiceException;
 import com.xiaowu.frameworkjava.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -43,6 +44,9 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
         if (ex instanceof NoResourceFoundException) {
             retCode = ResultCode.SERVICE_NOT_FOUND.getCode();
             retMsg = ResultCode.SERVICE_NOT_FOUND.getMsg();
+        } else if (ex instanceof ServiceException) {
+            retCode = ((ServiceException) ex).getCode();
+            retMsg = ex.getMessage();
         }
 
         int httpCode = Integer.parseInt(String.valueOf(retCode).substring(0, 3));

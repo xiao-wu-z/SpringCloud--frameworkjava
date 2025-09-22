@@ -3,6 +3,7 @@ package com.xiaowu.frameworkjava.handler;
 
 import com.xiaowu.frameworkjava.domain.R;
 import com.xiaowu.frameworkjava.domain.ResultCode;
+import com.xiaowu.frameworkjava.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
@@ -134,6 +135,14 @@ public class GlobalExceptionHandler {
         return R.fail(ResultCode.INVALID_PARA.getCode(),message);
     }
 
+    @ExceptionHandler(ServiceException.class)
+    public R<?> handleServiceException(ServiceException e, HttpServletRequest request,
+                                       HttpServletResponse response) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',发生业务异常.", requestURI, e);
+        setResponseCode(response, e.getCode());
+        return R.fail(e.getCode(), e.getMessage());
+    }
 
     /**
      * 拦截运行时异常
