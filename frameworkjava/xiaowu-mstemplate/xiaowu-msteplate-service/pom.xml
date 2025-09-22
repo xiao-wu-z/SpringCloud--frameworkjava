@@ -68,6 +68,12 @@
             <artifactId>xiaowu-common-domin</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.xiaowu.frameworkjava</groupId>
+            <artifactId>xiaowu-common-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
