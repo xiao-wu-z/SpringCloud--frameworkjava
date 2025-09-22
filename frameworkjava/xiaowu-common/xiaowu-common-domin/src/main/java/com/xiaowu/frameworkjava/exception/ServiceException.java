@@ -32,6 +32,10 @@ public class ServiceException extends RuntimeException{
         this.code = ResultCode.ERROR_CODE.getCode();
     }
 
+    /**
+     * 推荐使用
+     * @param resultCode
+     */
     public ServiceException(ResultCode resultCode){
         this.code = resultCode.getCode();
         this.msg = resultCode.getMsg();
