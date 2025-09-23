@@ -15,6 +15,7 @@
         <module>xiaowu-common-core</module>
         <module>xiaowu-common-domin</module>
         <module>xiaowu-common-security</module>
+        <module>xiaowu-common-redis</module>
     </modules>
 
     <properties>
