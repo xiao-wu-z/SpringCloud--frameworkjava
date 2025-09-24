@@ -1,4 +1,4 @@
-package com.xiaowu.frameworkjava;
+package com.xiaowu.frameworkjava.service;
 
 import com.xiaowu.frameworkjava.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;

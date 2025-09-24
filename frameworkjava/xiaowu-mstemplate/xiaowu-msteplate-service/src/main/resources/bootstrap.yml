@@ -16,6 +16,9 @@ spring:
         namespace: frameworkjava-${RUN_ENV}
         server-addr: ${NACOS_ADDR}
         file-extension: yaml
+        #共享配置
+        shared-configs:
+          - data-id: share-redis-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 # 这⼀配置⽤于定义应⽤在控制台输出⽇志时所遵循的格式规则
 logging:
   pattern:
