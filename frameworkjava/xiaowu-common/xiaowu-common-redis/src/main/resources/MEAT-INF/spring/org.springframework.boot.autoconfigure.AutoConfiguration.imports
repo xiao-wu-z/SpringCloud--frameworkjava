@@ -1,3 +1,5 @@
 com.xiaowu.frameworkjava.service.RedisService
 
 com.xiaowu.frameworkjava.config.RedisConfig
+
+com.xiaowu.frameworkjava.service.RedissonLockService
