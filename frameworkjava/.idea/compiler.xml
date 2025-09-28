@@ -9,6 +9,7 @@
         <module name="xiaowu-common-redis" />
         <module name="xiaowu-gateway" />
         <module name="xiaowu-common-domin" />
+        <module name="xiaowu-common-cache" />
         <module name="xiaowu-msteplate-service" />
         <module name="xiaowu-common-core" />
         <module name="xiaowu-common-security" />
@@ -21,6 +22,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="frameworkjava" options="" />
       <module name="xiaowu-common" options="" />
+      <module name="xiaowu-common-cache" options="-parameters" />
       <module name="xiaowu-common-core" options="-parameters" />
       <module name="xiaowu-common-domin" options="-parameters" />
       <module name="xiaowu-common-redis" options="-parameters" />

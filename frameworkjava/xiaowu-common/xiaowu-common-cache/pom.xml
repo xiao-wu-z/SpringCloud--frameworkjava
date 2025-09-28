@@ -5,24 +5,29 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xiaowu.frameworkjava</groupId>
-        <artifactId>frameworkjava</artifactId>
+        <artifactId>xiaowu-common</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>xiaowu-common</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>xiaowu-common-core</module>
-        <module>xiaowu-common-domin</module>
-        <module>xiaowu-common-security</module>
-        <module>xiaowu-common-redis</module>
-        <module>xiaowu-common-cache</module>
-    </modules>
+    <artifactId>xiaowu-common-cache</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.xiaowu.frameworkjava</groupId>
+            <artifactId>xiaowu-common-redis</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
