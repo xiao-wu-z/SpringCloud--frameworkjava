@@ -9,9 +9,12 @@
         <module name="xiaowu-common-redis" />
         <module name="xiaowu-gateway" />
         <module name="xiaowu-common-domin" />
+        <module name="xiaowu-file-api" />
         <module name="xiaowu-common-cache" />
         <module name="xiaowu-msteplate-service" />
+        <module name="xiaowu-file" />
         <module name="xiaowu-common-core" />
+        <module name="xiaowu-file-service" />
         <module name="xiaowu-common-rabbitmq" />
         <module name="xiaowu-common-security" />
         <module name="xiaowu-msteplate-api" />
@@ -29,6 +32,9 @@
       <module name="xiaowu-common-rabbitmq" options="-parameters" />
       <module name="xiaowu-common-redis" options="-parameters" />
       <module name="xiaowu-common-security" options="-parameters" />
+      <module name="xiaowu-file" options="-parameters" />
+      <module name="xiaowu-file-api" options="-parameters" />
+      <module name="xiaowu-file-service" options="-parameters" />
       <module name="xiaowu-gateway" options="-parameters" />
       <module name="xiaowu-mstemplate" options="" />
       <module name="xiaowu-msteplate-api" options="-parameters" />
