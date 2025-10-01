@@ -1,8 +1,7 @@
-package com.xiaowu.frameworkjava;
+package com.xiaowu.frameworkjava.config;
 
 
 import com.aliyun.oss.ClientBuilderConfiguration;
-import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.auth.CredentialsProviderFactory;
@@ -34,8 +33,8 @@ public class OSSAutoConfiguration {
      */
     @Bean
     public OSSClient ossClient(OSSProperties prop) {
-        DefaultCredentialProvider credentialsProvider = CredentialsProviderFactory.newDefaultCredentialProvider(
-                prop.getAccessKeyId(), prop.getAccessKeySecret());
+        DefaultCredentialProvider credentialsProvider = CredentialsProviderFactory
+                .newDefaultCredentialProvider(prop.getAccessKeyId(), prop.getAccessKeySecret());
 
         // 创建ClientBuilderConfiguration
         ClientBuilderConfiguration conf = new ClientBuilderConfiguration();

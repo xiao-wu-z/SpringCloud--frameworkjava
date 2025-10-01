@@ -1,4 +1,4 @@
-package com.xiaowu.frameworkjava;
+package com.xiaowu.frameworkjava.config;
 
 
 import lombok.Data;
