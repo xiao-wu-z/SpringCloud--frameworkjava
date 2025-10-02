@@ -3,6 +3,10 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xiaowu-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xiaowu-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xiaowu-admin/xiaowu-admin-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/xiaowu-admin/xiaowu-admin-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/xiaowu-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/xiaowu-common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/xiaowu-common/xiaowu-common-cache/src/main/java" charset="UTF-8" />

@@ -18,6 +18,7 @@
         <module>xiaowu-file</module>
         <module>xiaowu-file/xiaowu-file-api</module>
         <module>xiaowu-file/xiaowu-file-service</module>
+        <module>xiaowu-admin</module>
     </modules>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
