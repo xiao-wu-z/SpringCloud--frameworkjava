@@ -1,6 +1,9 @@
+server:
+  port: 18081
+
 spring:
   application:
-    name: xiaowu-mstemplate
+    name: xiaowu-admin
   profiles:
     active: ${RUN_ENV}
   cloud:
@@ -16,15 +19,16 @@ spring:
         namespace: frameworkjava-${RUN_ENV}
         server-addr: ${NACOS_ADDR}
         file-extension: yaml
-        #共享配置
+        # 共享配置
         shared-configs:
-          - data-id: share-redis-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - data-id: share-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
             refresh: true
-          - data-id: share-caffeine-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - data-id: share-redis-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
             refresh: true
           - data-id: share-rabbitmq-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
             refresh: true
-# 这⼀配置⽤于定义应⽤在控制台输出⽇志时所遵循的格式规则
+          - data-id: share-mysql-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
 logging:
   pattern:
     console: '[%thread] %-5level %logger{36} - %msg%n'
