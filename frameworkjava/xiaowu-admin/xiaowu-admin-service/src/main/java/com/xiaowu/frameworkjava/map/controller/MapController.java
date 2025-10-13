@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -29,5 +31,18 @@ public class MapController implements MapFeignClient {
         List<SysRegionDTO> regionList = mapService.getCityList();
         List<RegionVO> regionVOS = BeanUtil.copyListProperties(regionList, RegionVO::new);
         return R.ok(regionVOS);
+    }
+
+    @Override
+    public R<Map<String, List<RegionVO>>> getCityPylist() {
+        Map<String, List<SysRegionDTO>> pinyinList  = mapService.getCityPylist();
+
+        Map<String, List<RegionVO>> result = new LinkedHashMap<>();
+
+        for (Map.Entry<String, List<SysRegionDTO>> entry : pinyinList.entrySet()) {
+            result.put(entry.getKey(),
+                    BeanUtil.copyListProperties(entry.getValue(), RegionVO::new));
+        }
+        return R.ok(result);
     }
 }

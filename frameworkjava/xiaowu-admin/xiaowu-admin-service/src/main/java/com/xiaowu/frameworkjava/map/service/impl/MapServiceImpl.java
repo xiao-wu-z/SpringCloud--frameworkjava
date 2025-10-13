@@ -18,6 +18,8 @@ import com.github.benmanes.caffeine.cache.Cache;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 
@@ -47,6 +49,31 @@ public class MapServiceImpl implements IMapService {
         List<SysRegion> regionList = regionMapper.selectAllRegion();
         // 在服务加载之前缓存城市列表数据
         loadCityInfo(regionList);
+
+        // 3 在服务启动期间，缓存城市归类列表
+        loadCityPinyinInfo(regionList);
+    }
+
+    private void loadCityPinyinInfo(List<SysRegion> regionList) {
+        Map<String, List<SysRegionDTO>> cityMap = new TreeMap<>();
+
+        for(SysRegion region : regionList) {
+            if (region.getLevel().equals(MapConstants.CITY_LEVEL)) {
+                SysRegionDTO regionDTO = new SysRegionDTO();
+                BeanUtils.copyProperties(region, regionDTO);
+                String firstChar = regionDTO.getPinyin().substring(0, 1).toUpperCase();
+
+                if (cityMap.containsKey(firstChar)) {
+                    cityMap.get(firstChar).add(regionDTO);
+                }else {
+                    List<SysRegionDTO> regionDTOList = new ArrayList<>();
+                    regionDTOList.add(regionDTO);
+                    cityMap.put(firstChar, regionDTOList);
+                }
+            }
+        }
+        CacheUtil.setL2Cache(redisService, MapConstants.CACHE_MAP_CITY_PINYIN_KEY,
+                cityMap, caffeineCache, 120L, TimeUnit.MINUTES);
     }
 
     private void loadCityInfo(List<SysRegion> regionList) {
@@ -138,9 +165,18 @@ public class MapServiceImpl implements IMapService {
      */
     @Override
     public List<SysRegionDTO> getCityList() {
-        List<SysRegionDTO> cache = CacheUtil.getL2Cache(redisService,
+        List<SysRegionDTO> result = CacheUtil.getL2Cache(redisService,
                 MapConstants.CACHE_MAP_CITY_KEY,
                 new TypeReference<List<SysRegionDTO>>() {}, caffeineCache);
-        return cache;
+        return result;
+    }
+
+    @Override
+    public Map<String, List<SysRegionDTO>> getCityPylist() {
+        Map<String, List<SysRegionDTO>> result = CacheUtil.getL2Cache(redisService,
+                MapConstants.CACHE_MAP_CITY_PINYIN_KEY,
+                new TypeReference<Map<String, List<SysRegionDTO>>>() {}, caffeineCache);
+        return result;
+
     }
 }
