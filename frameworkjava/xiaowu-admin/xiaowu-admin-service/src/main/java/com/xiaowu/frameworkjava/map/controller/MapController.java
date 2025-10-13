@@ -45,4 +45,13 @@ public class MapController implements MapFeignClient {
         }
         return R.ok(result);
     }
+
+    @Override
+    public R<List<RegionVO>> regionChildren(Long parentId) {
+        List<SysRegionDTO> regionList = mapService.regionChildren(parentId);
+
+        List<RegionVO> regionVOS = BeanUtil.copyListProperties(regionList, RegionVO::new);
+
+        return R.ok(regionVOS);
+    }
 }

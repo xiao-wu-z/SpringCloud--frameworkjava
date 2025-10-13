@@ -17,4 +17,11 @@ public interface IMapService {
      * @return
      */
     Map<String, List<SysRegionDTO>> getCityPylist();
+
+    /**
+     * 根据父级区域ID获取子级区域列表
+     * @param parentId 父级区域ID
+     * @return 子级区域列表
+     */
+    List<SysRegionDTO> regionChildren(Long parentId);
 }

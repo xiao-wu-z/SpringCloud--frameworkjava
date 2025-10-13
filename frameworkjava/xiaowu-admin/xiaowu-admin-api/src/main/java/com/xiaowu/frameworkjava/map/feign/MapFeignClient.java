@@ -4,6 +4,7 @@ import com.xiaowu.frameworkjava.domain.R;
 import com.xiaowu.frameworkjava.map.domain.vo.RegionVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -23,4 +24,12 @@ public interface MapFeignClient {
      */
     @GetMapping("/map/city_pinyin_list")
     R<Map<String, List<RegionVO>>> getCityPylist();
+
+    /**
+     * 根据父级区域ID获取子集区域列表
+     * @param parentId 父级区域ID
+     * @return 子集区域列表
+     */
+    @GetMapping("/map/region_children_list")
+    R<List<RegionVO>> regionChildren(@RequestParam Long parentId);
 }

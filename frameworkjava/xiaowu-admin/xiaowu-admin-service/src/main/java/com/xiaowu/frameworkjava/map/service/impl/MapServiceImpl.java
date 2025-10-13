@@ -179,4 +179,27 @@ public class MapServiceImpl implements IMapService {
         return result;
 
     }
+
+    @Override
+    public List<SysRegionDTO> regionChildren(Long parentId) {
+        String key = MapConstants.CACHE_MAP_CITY_KEY + parentId;
+
+        List<SysRegionDTO> result = CacheUtil.getL2Cache(redisService, key,
+                new TypeReference<List<SysRegionDTO>>() {}, caffeineCache);
+
+        if (result != null) {
+            return result;
+        }
+        List<SysRegion> regionList = regionMapper.selectAllRegion();
+        for (SysRegion region : regionList) {
+            if (region.getParentId() != null && region.getParentId().equals(parentId)) {
+                SysRegionDTO regionDTO = new SysRegionDTO();
+                BeanUtils.copyProperties(region, regionDTO);
+                result.add(regionDTO);
+            }
+        }
+        CacheUtil.setL2Cache(redisService, key, result,
+                caffeineCache, 120L, TimeUnit.MINUTES);
+        return result;
+    }
 }
