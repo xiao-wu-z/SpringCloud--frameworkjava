@@ -54,4 +54,12 @@ public class MapController implements MapFeignClient {
 
         return R.ok(regionVOS);
     }
+
+    @Override
+    public R<List<RegionVO>> getHotCityList() {
+        List<SysRegionDTO> regionList = mapService.getHotCityList();
+
+        List<RegionVO> regionVOS = BeanUtil.copyListProperties(regionList, RegionVO::new);
+        return R.ok(regionVOS);
+    }
 }

@@ -44,6 +44,7 @@ public class MapServiceImpl implements IMapService {
     @Autowired
     private Cache<String, Object> caffeineCache;
 
+
     @PostConstruct
     public void initCityMap() {
         List<SysRegion> regionList = regionMapper.selectAllRegion();
@@ -180,26 +181,68 @@ public class MapServiceImpl implements IMapService {
 
     }
 
+    /**
+     * 获取指定父级ID下的所有子区域信息
+     * @param parentId 父级区域ID
+     * @return 返回子区域DTO列表
+     */
     @Override
     public List<SysRegionDTO> regionChildren(Long parentId) {
-        String key = MapConstants.CACHE_MAP_CITY_KEY + parentId;
+        // 构建缓存键，使用父级ID和常量组合
+        String key = MapConstants.CACHE_MAP_CITY_CHILDREN_KEY + parentId;
 
+        // 尝试从二级缓存中获取数据
         List<SysRegionDTO> result = CacheUtil.getL2Cache(redisService, key,
                 new TypeReference<List<SysRegionDTO>>() {}, caffeineCache);
 
+        // 如果缓存中存在数据，直接返回
         if (result != null) {
             return result;
         }
+        // 从数据库中查询所有区域信息
         List<SysRegion> regionList = regionMapper.selectAllRegion();
+        // 初始化结果列表
+        result = new ArrayList<>();
+        // 遍历区域列表，筛选出属于指定父级ID的子区域
         for (SysRegion region : regionList) {
             if (region.getParentId() != null && region.getParentId().equals(parentId)) {
+                // 创建DTO对象并复制属性
                 SysRegionDTO regionDTO = new SysRegionDTO();
                 BeanUtils.copyProperties(region, regionDTO);
+                // 添加到结果列表
                 result.add(regionDTO);
             }
         }
+        // 将查询结果存入二级缓存，设置缓存时间为120分钟
         CacheUtil.setL2Cache(redisService, key, result,
                 caffeineCache, 120L, TimeUnit.MINUTES);
+        // 返回结果列表
         return result;
+    }
+
+    @Override
+    public List<SysRegionDTO> getHotCityList() {
+        List<SysRegionDTO> result = CacheUtil.getL2Cache(redisService,
+                MapConstants.CACHE_MAP_HOT_CITY,
+                new TypeReference<List<SysRegionDTO>>() {}, caffeineCache);
+        if (result != null) {
+            return result;
+        }
+
+        List<SysRegion> regionList = regionMapper.selectAllRegion();
+        String ids = "110100,310100,120100,440100,330100,370100,320100";
+        for (String id : ids.split(",")) {
+            for (SysRegion region : regionList) {
+                if (region.getId().equals(Long.valueOf(id))) {
+                    SysRegionDTO regionDTO = new SysRegionDTO();
+                    BeanUtils.copyProperties(region, regionDTO);
+                    result.add(regionDTO);
+                }
+            }
+        }
+        CacheUtil.setL2Cache(redisService, MapConstants.CACHE_MAP_HOT_CITY, result,
+                caffeineCache, 120L, TimeUnit.MINUTES);
+        return result;
+
     }
 }
