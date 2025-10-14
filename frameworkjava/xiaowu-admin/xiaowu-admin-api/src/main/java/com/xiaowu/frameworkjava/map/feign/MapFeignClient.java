@@ -1,9 +1,14 @@
 package com.xiaowu.frameworkjava.map.feign;
 
 import com.xiaowu.frameworkjava.domain.R;
+import com.xiaowu.frameworkjava.domain.vo.BasePageVO;
+import com.xiaowu.frameworkjava.map.domain.dto.PlaceSearchReqDTO;
 import com.xiaowu.frameworkjava.map.domain.vo.RegionVO;
+import com.xiaowu.frameworkjava.map.domain.vo.SearchPoiVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -40,4 +45,12 @@ public interface MapFeignClient {
      */
     @GetMapping("/map/city_hot_list")
     R<List<RegionVO>> getHotCityList();
+
+    /**
+     * 根据地点搜索
+     * @param placeSearchReqDTO 搜索条件
+     * @return 搜索结果
+     */
+    @PostMapping("/map/search")
+    R<BasePageVO<SearchPoiVO>> searchSuggestOnMap(@RequestBody PlaceSearchReqDTO placeSearchReqDTO);
 }

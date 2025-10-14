@@ -1,5 +1,8 @@
 package com.xiaowu.frameworkjava.map.service;
 
+import com.xiaowu.frameworkjava.domain.vo.BasePageVO;
+import com.xiaowu.frameworkjava.map.domain.dto.PlaceSearchReqDTO;
+import com.xiaowu.frameworkjava.map.domain.dto.SearchPoiDTO;
 import com.xiaowu.frameworkjava.map.domain.dto.SysRegionDTO;
 
 import java.util.List;
@@ -30,4 +33,11 @@ public interface IMapService {
      * @return 热门城市列表
      */
     List<SysRegionDTO> getHotCityList();
+
+    /**
+     * 根据地点搜索
+     * @param placeSearchReqDTO
+     * @return
+     */
+    BasePageVO<SearchPoiDTO> searchSuggestOnMap(PlaceSearchReqDTO placeSearchReqDTO);
 }

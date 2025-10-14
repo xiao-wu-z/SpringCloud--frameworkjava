@@ -1,12 +1,17 @@
 package com.xiaowu.frameworkjava.map.controller;
 
 import com.xiaowu.frameworkjava.domain.R;
+import com.xiaowu.frameworkjava.domain.vo.BasePageVO;
+import com.xiaowu.frameworkjava.map.domain.dto.PlaceSearchReqDTO;
+import com.xiaowu.frameworkjava.map.domain.dto.SearchPoiDTO;
 import com.xiaowu.frameworkjava.map.domain.dto.SysRegionDTO;
 import com.xiaowu.frameworkjava.map.domain.vo.RegionVO;
+import com.xiaowu.frameworkjava.map.domain.vo.SearchPoiVO;
 import com.xiaowu.frameworkjava.map.feign.MapFeignClient;
 import com.xiaowu.frameworkjava.map.service.IMapService;
 import com.xiaowu.frameworkjava.utils.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,5 +66,15 @@ public class MapController implements MapFeignClient {
 
         List<RegionVO> regionVOS = BeanUtil.copyListProperties(regionList, RegionVO::new);
         return R.ok(regionVOS);
+    }
+
+    @Override
+    public R<BasePageVO<SearchPoiVO>> searchSuggestOnMap(PlaceSearchReqDTO placeSearchReqDTO) {
+        BasePageVO<SearchPoiDTO> basePageReqDTO  = mapService.searchSuggestOnMap(placeSearchReqDTO);
+
+        BasePageVO<SearchPoiVO> result = new BasePageVO<>();
+        BeanUtils.copyProperties(basePageReqDTO, result);
+        return R.ok(result);
+
     }
 }

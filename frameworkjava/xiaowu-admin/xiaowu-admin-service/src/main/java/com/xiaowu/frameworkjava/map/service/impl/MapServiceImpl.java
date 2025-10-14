@@ -1,13 +1,16 @@
 package com.xiaowu.frameworkjava.map.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.xiaowu.frameworkjava.domain.vo.BasePageVO;
 import com.xiaowu.frameworkjava.map.constants.MapConstants;
-import com.xiaowu.frameworkjava.map.domain.dto.SysRegionDTO;
+import com.xiaowu.frameworkjava.map.domain.dto.*;
 import com.xiaowu.frameworkjava.map.domain.entity.SysRegion;
 import com.xiaowu.frameworkjava.map.mapper.RegionMapper;
+import com.xiaowu.frameworkjava.map.service.IMapProvider;
 import com.xiaowu.frameworkjava.map.service.IMapService;
 import com.xiaowu.frameworkjava.service.RedisService;
 import com.xiaowu.frameworkjava.utils.CacheUtil;
+import com.xiaowu.frameworkjava.utils.PageUtil;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,12 @@ public class MapServiceImpl implements IMapService {
      */
     @Autowired
     private Cache<String, Object> caffeineCache;
+
+    /**
+     * 地图服务提供者
+     */
+    @Autowired
+    private IMapProvider mapProvider;
 
 
     @PostConstruct
@@ -242,6 +251,47 @@ public class MapServiceImpl implements IMapService {
         }
         CacheUtil.setL2Cache(redisService, MapConstants.CACHE_MAP_HOT_CITY, result,
                 caffeineCache, 120L, TimeUnit.MINUTES);
+        return result;
+
+    }
+
+/**
+ * 根据地区搜索地点建议并返回分页结果
+ * @param placeSearchReqDTO 地点搜索请求参数
+ * @return 返回包含搜索结果的分页视图对象
+ */
+    @Override
+    public BasePageVO<SearchPoiDTO> searchSuggestOnMap(PlaceSearchReqDTO placeSearchReqDTO) {
+    // 将请求参数转换为搜索建议DTO
+        SuggestSearchDTO suggestSearchDTO = new SuggestSearchDTO();
+        BeanUtils.copyProperties(placeSearchReqDTO, suggestSearchDTO);
+    // 设置页码和ID参数
+        suggestSearchDTO.setPageIndex(placeSearchReqDTO.getPageNo());
+        suggestSearchDTO.setId(String.valueOf(placeSearchReqDTO.getId()));
+
+    // 调用地图服务提供商搜索地点
+        PoiListDTO poiListDTO = mapProvider.searchQQMapPlaceByRegion(suggestSearchDTO);
+        List<PoiDTO> poiDTOList = poiListDTO.getData();
+
+    // 初始化分页结果对象
+        BasePageVO<SearchPoiDTO> result = new BasePageVO<>();
+    // 设置总记录数和总页数
+        result.setTotals(poiListDTO.getCount());
+        result.setTotalPages(PageUtil.getTotalPages(result.getTotals(),
+                placeSearchReqDTO.getPageSize()));
+
+    // 处理搜索结果列表
+        List<SearchPoiDTO> pageRes = new ArrayList<>();
+        for (PoiDTO poiDTO : poiDTOList) {
+        // 将PoiDTO转换为SearchPoiDTO
+            SearchPoiDTO searchPoiDTO = new SearchPoiDTO();
+            BeanUtils.copyProperties(poiDTO, searchPoiDTO);
+        // 设置经纬度信息
+            searchPoiDTO.setLongitude(poiDTO.getLocation().getLng());
+            searchPoiDTO.setLatitude(poiDTO.getLocation().getLat());
+            pageRes.add(searchPoiDTO);
+        }
+        result.setList(pageRes);
         return result;
 
     }
