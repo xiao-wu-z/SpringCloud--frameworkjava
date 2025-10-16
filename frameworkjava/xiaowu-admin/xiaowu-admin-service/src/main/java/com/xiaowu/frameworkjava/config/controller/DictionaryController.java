@@ -1,5 +1,6 @@
 package com.xiaowu.frameworkjava.config.controller;
 
+import com.xiaowu.frameworkjava.config.domain.dto.DictionaryDataEditReqDTO;
 import com.xiaowu.frameworkjava.config.domain.dto.DictionaryTypeListReqDTO;
 import com.xiaowu.frameworkjava.config.domain.dto.DictionaryTypeWriteReqDTO;
 import com.xiaowu.frameworkjava.config.domain.vo.DictionaryTypeVO;
@@ -43,5 +44,15 @@ public class DictionaryController implements DictionaryFeignClient {
     @GetMapping("/dictionary_type/list")
     public R<BasePageVO<DictionaryTypeVO>> listType(@Validated DictionaryTypeListReqDTO dictionaryTypeListReqDTO) {
         return R.ok(iSysDictionaryService.listType(dictionaryTypeListReqDTO));
+    }
+
+    /**
+     * 编辑字典类型
+     * @param dictionaryTypeWriteReqDTO 编辑字典类型DTO
+     * @return Long
+     */
+    @PostMapping("/dictionary_type/edit")
+    public R<Long> editType(@RequestBody @Validated DictionaryTypeWriteReqDTO dictionaryTypeWriteReqDTO) {
+        return R.ok(iSysDictionaryService.editType(dictionaryTypeWriteReqDTO));
     }
 }

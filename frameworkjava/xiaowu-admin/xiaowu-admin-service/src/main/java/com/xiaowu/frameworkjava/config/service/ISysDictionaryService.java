@@ -9,4 +9,6 @@ public interface ISysDictionaryService {
     Long addType(DictionaryTypeWriteReqDTO dictionaryTypeWriteReqDTO);
 
     BasePageVO<DictionaryTypeVO> listType(DictionaryTypeListReqDTO dictionaryTypeListReqDTO);
+
+    Long editType(DictionaryTypeWriteReqDTO dictionaryTypeWriteReqDTO);
 }

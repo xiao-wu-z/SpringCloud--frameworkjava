@@ -10,6 +10,7 @@ public class DictionaryTypeVO {
      */
     private Long id;
 
+
     /**
      * 字典类型键
      */

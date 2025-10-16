@@ -66,4 +66,23 @@ public class SysDictionaryTypeServiceImpl implements ISysDictionaryService {
         }
         return result;
     }
+
+    @Override
+    public Long editType(DictionaryTypeWriteReqDTO dictionaryTypeWriteReqDTO) {
+        SysDictionaryType sysDictionaryType = sysDictionaryTypeMapper
+                .selectOne(new LambdaQueryWrapper<SysDictionaryType>()
+                .eq(SysDictionaryType::getTypeKey, dictionaryTypeWriteReqDTO.getTypeKey()));
+        if (sysDictionaryType == null) {
+            throw new ServiceException("字典类型不存在");
+        }
+        if (sysDictionaryTypeMapper.selectOne(new LambdaQueryWrapper<SysDictionaryType>()
+                .ne(SysDictionaryType::getTypeKey, dictionaryTypeWriteReqDTO.getTypeKey())
+                .eq(SysDictionaryType::getValue, dictionaryTypeWriteReqDTO.getValue())) != null) {
+            throw new ServiceException("字典类型名称已存在");
+        }
+        sysDictionaryType.setValue(dictionaryTypeWriteReqDTO.getValue());
+        sysDictionaryType.setRemark(dictionaryTypeWriteReqDTO.getRemark());
+        sysDictionaryTypeMapper.updateById(sysDictionaryType);
+        return sysDictionaryType.getId();
+    }
 }
